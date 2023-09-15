@@ -1,45 +1,38 @@
 const express = require('express');
 const router = express.Router();
 
-// Route to view principal details
+// Data storage (for demonstration purposes)
+const students = [];
+
+// Principal route to view students
 router.get('/view', (req, res) => {
-  // Check the cookie to enforce the 2-minute timeout here
-  const lastAction = req.cookies.last_action;
-  const currentTime = new Date().getTime();
+  res.json({ students });
+});
 
-  if (!lastAction || currentTime - new Date(lastAction).getTime() > 120000) {
-    res.status(401).json({ message: 'Timeout or unauthorized access' });
+// Principal route to update a student's details by ID
+router.put('/update/:id', (req, res) => {
+  const studentId = req.params.id;
+  const updatedData = req.body;
+  const studentIndex = students.findIndex((s) => s.id === studentId);
+
+  if (studentIndex !== -1) {
+    students[studentIndex] = { ...students[studentIndex], ...updatedData };
+    res.json({ message: 'Student details updated successfully' });
   } else {
-    // Proceed with viewing principal details here
-    res.json({ message: 'Viewing principal details' });
+    res.status(404).json({ error: 'Student not found' });
   }
 });
 
-// Route to update principal details
-router.put('/update', (req, res) => {
-  // Check the cookie to enforce the 2-minute timeout here
-  const lastAction = req.cookies.last_action;
-  const currentTime = new Date().getTime();
-
-  if (!lastAction || currentTime - new Date(lastAction).getTime() > 120000) {
-    res.status(401).json({ message: 'Timeout or unauthorized access' });
-  } else {
-    // Proceed with updating principal details here
-    res.json({ message: 'Updating principal details' });
-  }
-});
-
-// Route to delete a student (for the principal role)
+// Principal route to delete a student by ID
 router.delete('/delete/:id', (req, res) => {
-  // Check the cookie to enforce the 2-minute timeout here
-  const lastAction = req.cookies.last_action;
-  const currentTime = new Date().getTime();
+  const studentId = req.params.id;
+  const studentIndex = students.findIndex((s) => s.id === studentId);
 
-  if (!lastAction || currentTime - new Date(lastAction).getTime() > 120000) {
-    res.status(401).json({ message: 'Timeout or unauthorized access' });
+  if (studentIndex !== -1) {
+    students.splice(studentIndex, 1);
+    res.json({ message: 'Student deleted successfully' });
   } else {
-    // Proceed with deleting a student here (similar to the studentRoutes.js)
-    res.json({ message: 'Deleting a student (principal)' });
+    res.status(404).json({ error: 'Student not found' });
   }
 });
 

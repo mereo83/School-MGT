@@ -1,24 +1,27 @@
 const express = require('express');
+const cookieParser = require('cookie-parser'); // Import cookie-parser
 const app = express();
-const cookieParser = require('cookie-parser');
+const port = 3000;
+
+// Middleware to parse JSON requests
+app.use(express.json());
 
 // Middleware to parse cookies
-app.use(cookieParser());
+app.use(cookieParser()); // Use cookie-parser middleware
 
-// Import the route files for different roles
-const studentRoutes = require('./routes/studentRoutes');
-const principalRoutes = require('./routes/principalRoutes');
-const teacherRoutes = require('./routes/teacherRoutes');
+// Include route modules
 const receptionistRoutes = require('./routes/receptionistRoutes');
+const studentRoutes = require('./routes/studentRoutes');
+const teacherRoutes = require('./routes/teacherRoutes');
+const principalRoutes = require('./routes/principalRoutes');
 
-// Mount the routes for each role
-app.use('/student', studentRoutes);
-app.use('/principal', principalRoutes);
-app.use('/teacher', teacherRoutes);
+// Use route modules
 app.use('/receptionist', receptionistRoutes);
+app.use('/student', studentRoutes);
+app.use('/teacher', teacherRoutes);
+app.use('/principal', principalRoutes);
 
-// Your other middleware and configurations
-
-app.listen(3000, () => {
-  console.log('Server is running on port 3000');
+// Start the Express server
+app.listen(port, () => {
+  console.log(`Server is running on port ${port}`);
 });

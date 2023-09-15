@@ -1,17 +1,18 @@
 const express = require('express');
 const router = express.Router();
 
-// Route to view student details
-router.get('/view', (req, res) => {
-  // Check the cookie to enforce the 2-minute timeout here
-  const lastAction = req.cookies.last_action;
-  const currentTime = new Date().getTime();
+// Data storage (for demonstration purposes)
+const students = [];
 
-  if (!lastAction || currentTime - new Date(lastAction).getTime() > 120000) {
-    res.status(401).json({ message: 'Timeout or unauthorized access' });
+// Student route to view their own details by ID
+router.get('/:id', (req, res) => {
+  const studentId = req.params.id; // Move this line inside the route handler function
+  const student = students.find((s) => s.id === studentId);
+
+  if (student) {
+    res.json(student);
   } else {
-    // Proceed with viewing student details here
-    res.json({ message: 'Viewing student details' });
+    res.status(404).json({ error: 'Student not found' });
   }
 });
 

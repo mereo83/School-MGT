@@ -1,17 +1,20 @@
 const express = require('express');
 const router = express.Router();
 
-// Route to update student details by ID (for the teacher role)
-router.put('/update/:id', (req, res) => {
-  // Check the cookie to enforce the 2-minute timeout here
-  const lastAction = req.cookies.last_action;
-  const currentTime = new Date().getTime();
+// Data storage (for demonstration purposes)
+const students = [];
 
-  if (!lastAction || currentTime - new Date(lastAction).getTime() > 120000) {
-    res.status(401).json({ message: 'Timeout or unauthorized access' });
+// Teachers route to update a student's details by ID
+router.put('/update/:id', (req, res) => {
+  const studentId = req.params.id;
+  const updatedData = req.body;
+  const studentIndex = students.findIndex((s) => s.id === studentId);
+
+  if (studentIndex !== -1) {
+    students[studentIndex] = { ...students[studentIndex], ...updatedData };
+    res.json({ message: 'Student details updated successfully' });
   } else {
-    // Proceed with updating student details here (similar to the studentRoutes.js)
-    res.json({ message: 'Updating student details (teacher)' });
+    res.status(404).json({ error: 'Student not found' });
   }
 });
 
