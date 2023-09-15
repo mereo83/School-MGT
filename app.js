@@ -1,7 +1,9 @@
+// app.js
+
 const express = require('express');
 const cookieParser = require('cookie-parser'); // Import cookie-parser
 const app = express();
-const port = 3000;
+const port = 7000;
 
 // Middleware to parse JSON requests
 app.use(express.json());

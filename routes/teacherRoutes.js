@@ -2,16 +2,16 @@ const express = require('express');
 const router = express.Router();
 
 // Data storage (for demonstration purposes)
-const students = [];
+const studentsArray = [];
 
-// Teachers route to update a student's details by ID
-router.put('/update/:id', (req, res) => {
-  const studentId = req.params.id;
+// Teacher route to update a student's details by ID
+router.put('/update/:studentID', (req, res) => {
+  const studentId = req.params.studentID;
   const updatedData = req.body;
-  const studentIndex = students.findIndex((s) => s.id === studentId);
+  const studentIndex = studentsArray.findIndex((student) => student.studId === studentId);
 
   if (studentIndex !== -1) {
-    students[studentIndex] = { ...students[studentIndex], ...updatedData };
+    studentsArray[studentIndex] = { ...studentsArray[studentIndex], ...updatedData };
     res.json({ message: 'Student details updated successfully' });
   } else {
     res.status(404).json({ error: 'Student not found' });
