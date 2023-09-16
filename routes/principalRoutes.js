@@ -1,10 +1,11 @@
+// routes/principalRoutes.js
+
 const express = require('express');
 const router = express.Router();
+const fs = require('fs');
 
-// Data storage for students (for demonstration purposes)
-const studentsArray = [
- 
-];
+// Read data from students.json on server start
+const studentsArray = JSON.parse(fs.readFileSync('./data/students.json', 'utf-8'));
 
 // Principal route to view all students
 router.get('/all_students', (req, res) => {
@@ -31,20 +32,11 @@ router.put('/update/:studentID', (req, res) => {
 
   if (studentIndex !== -1) {
     studentsArray[studentIndex] = { ...studentsArray[studentIndex], ...updatedData };
+
+    // Update students.json with the updated data
+    fs.writeFileSync('./data/students.json', JSON.stringify(studentsArray), 'utf-8');
+
     res.json({ message: 'Student details updated successfully' });
-  } else {
-    res.status(404).json({ error: 'Student not found' });
-  }
-});
-
-// Principal route to delete a student by ID
-router.delete('/delete/:studentID', (req, res) => {
-  const studentId = req.params.studentID;
-  const studentIndex = studentsArray.findIndex((student) => student.studId === studentId);
-
-  if (studentIndex !== -1) {
-    studentsArray.splice(studentIndex, 1);
-    res.json({ message: 'Student deleted successfully' });
   } else {
     res.status(404).json({ error: 'Student not found' });
   }

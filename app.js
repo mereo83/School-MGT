@@ -2,6 +2,7 @@
 
 const express = require('express');
 const cookieParser = require('cookie-parser'); // Import cookie-parser
+const fs = require('fs'); // Import the Node.js filesystem module
 const app = express();
 const port = 7000;
 
@@ -10,6 +11,9 @@ app.use(express.json());
 
 // Middleware to parse cookies
 app.use(cookieParser()); // Use cookie-parser middleware
+
+// Read data from students.json on server start
+const studentsArray = JSON.parse(fs.readFileSync('./data/students.json', 'utf-8'));
 
 // Include route modules
 const receptionistRoutes = require('./routes/receptionistRoutes');

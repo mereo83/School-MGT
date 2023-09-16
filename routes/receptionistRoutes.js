@@ -1,10 +1,11 @@
+// routes/receptionistRoutes.js
+
 const express = require('express');
 const router = express.Router();
-const registerStudent = require('../middleware/registerStudentMiddleware'); // Import the middleware
-const studentsArray = require('../data/studentArray'); // Import the studentsArray
+const fs = require('fs'); // Import the Node.js filesystem module
 
 // Receptionist route to register a student
-router.post('/register_student', registerStudent, (req, res) => {
+router.post('/register_student', (req, res) => {
   const savedCookie = req.cookies;
 
   if (savedCookie.status) {
@@ -20,13 +21,15 @@ router.post('/register_student', registerStudent, (req, res) => {
     };
 
     studentsArray.push(newStudent);
+
+    // Update students.json with the new data
+    fs.writeFileSync('./data/students.json', JSON.stringify(studentsArray), 'utf-8');
+
     res.cookie('status', 'Done', { maxAge: 20000 });
-    res.send('Student registered successfully'); // Send a success message
+    res.send('Student registered successfully');
   }
 });
 
-router.get('/view_students', (req, res) => {
-  res.json(studentsArray);
-});
+// Other routes should also be updated similarly
 
 module.exports = router;
