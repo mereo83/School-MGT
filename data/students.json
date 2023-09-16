@@ -1,6 +1,14 @@
-// studentArray.js
-
-// Initialize an empty array to store student data
-const studentsArray = [];
-
-module.exports = studentsArray;
+[
+  {
+    "id": "21",
+    "name": "Mvondo Paul",
+    "age": 18,
+    "email": "defjam@mail.com"
+  },
+  {
+    "id": "21",
+    "name": "Mvondo Paul",
+    "age": 18,
+    "email": "defjam@mail.com"
+  }
+]
