@@ -4,6 +4,21 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs'); // Import the Node.js filesystem module
 
+// SSR route
+router.get('/ssr', (req, res) => {
+  const data = {
+    message: 'This is SSR data!',
+  };
+
+  // Render the EJS template with data
+  res.render('home', data);
+});
+
+router.get('/dashboard', (req, res) => {
+  res.sendFile('index.html', { root: './public' });
+});
+
+
 // Receptionist route to register a student
 router.post('/register_student', (req, res) => {
   const savedCookie = req.cookies;

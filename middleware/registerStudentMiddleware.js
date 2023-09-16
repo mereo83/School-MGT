@@ -1,6 +1,6 @@
 // middleware/registerStudentMiddleware.js
 
-const studentsArray = require('../data/studentArray'); // Import the studentsArray
+const studentsArray = require('../data/students'); // Import the studentsArray
 
 function registerStudent(req, res, next) {
   const savedCookie = req.cookies;

@@ -7,6 +7,21 @@ const fs = require('fs');
 // Read data from students.json on server start
 const studentsArray = JSON.parse(fs.readFileSync('./data/students.json', 'utf-8'));
 
+// SSR route
+router.get('/ssr', (req, res) => {
+  const data = {
+    message: 'This is SSR data!',
+  };
+
+  // Render the EJS template with data
+  res.render('home', data);
+});
+
+router.get('/dashboard', (req, res) => {
+  res.sendFile('index.html', { root: './public' });
+});
+
+
 // Teacher route to update a student's details by ID
 router.put('/update/:id', (req, res) => {
   const studentId = req.params.id;

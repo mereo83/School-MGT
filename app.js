@@ -6,6 +6,10 @@ const fs = require('fs'); // Import the Node.js filesystem module
 const app = express();
 const port = 7000;
 
+
+// Set EJS as the view engine
+app.set('view engine', 'ejs');
+
 // Middleware to parse JSON requests
 app.use(express.json());
 
@@ -26,6 +30,9 @@ app.use('/receptionist', receptionistRoutes);
 app.use('/student', studentRoutes);
 app.use('/teacher', teacherRoutes);
 app.use('/principal', principalRoutes);
+
+// Serve static files from the 'public' folder
+app.use(express.static('public'));
 
 // Start the Express server
 app.listen(port, () => {
